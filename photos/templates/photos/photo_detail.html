@@ -5,6 +5,7 @@
     <title>{{ photo.name }}</title>
 </head>
 <body>
+    {% include 'photos/menu.html' %}
     <h1>{{ photo.name }}</h1>
     <img src="{{ photo.url }}" alt="{{ photo.description }}" title="{{ photo.name }}" width="300" />
     <p>{{ photo.description }}</p>
