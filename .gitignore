@@ -58,4 +58,4 @@ docs/_build/
 target/
 
 *.sqlite3
-.idea
+.idea/workspace.xml
