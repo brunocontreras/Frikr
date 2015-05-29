@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{% block 'title' %} Bienvenido a Frikr - Como Flickr, pero en friki {% endblock %}</title>
+</head>
+<body>
+    {% include 'photos/menu.html' %}
+    {% block 'content' %}{% endblock %}
+    <hr />
+    Frikr Inc. &copy; 2015
+</body>
+</html>
