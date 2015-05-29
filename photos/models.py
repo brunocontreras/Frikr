@@ -23,3 +23,7 @@ class Photo(models.Model):
     # choices es una tupla que desplegará luego en la web todas las opciones.
     # ponemos una tupla para que sea inmutable. Podríamos haber utilizado un diccionario.
     license = models.CharField(max_length=3, choices=LICENSES)
+
+    # Función que muestra en el admin el nombre de la entidad
+    def __unicode__(self):
+        return self.name
