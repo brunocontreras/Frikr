@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
+from frikr.settings import PUBLIC
 from photos.models import Photo
 
 # Create your views here.
 
 def home(request):
-    photos = Photo.objects.filter(visibility=Photo.PUBLIC).order_by('-created_on')
+    photos = Photo.objects.filter(visibility=PUBLIC).order_by('-created_on')
     context = {
         'photo_list': photos[:5],
     }

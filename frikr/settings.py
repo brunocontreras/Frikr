@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for frikr project.
 
@@ -101,3 +102,29 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Photos App Settings
+
+GROMENAUER = 'GRO'
+COPYRIGHT = 'RIG'
+COPYLEFT = 'LEF'
+CREATIVE_COMMONS = 'CC'
+
+DEFAULT_LICENSE = CREATIVE_COMMONS
+
+LICENSES = (
+    (GROMENAUER, 'Gromenauer'),
+    (COPYRIGHT, 'Copyright'),
+    (COPYLEFT, 'Copyleft'),
+    (CREATIVE_COMMONS, 'Creative Commons'),
+)
+
+PUBLIC = 'PUB'
+PRIVATE = 'PRI'
+
+DEFAULT_VISIBILITY = PUBLIC
+
+VISIBILITY = (
+    (PUBLIC, 'Pública'),
+    (PRIVATE, 'Privada'),
+)
