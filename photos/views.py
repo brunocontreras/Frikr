@@ -51,21 +51,22 @@ def logout(request):
 
 
 def login(request):
-    form = LoginForm()
+    form = LoginForm(request.POST or None)
     context = {
         'form': form
     }
     if request.method.lower() == 'post':
-        user_username = request.POST.get('username', '')
-        user_password = request.POST.get('password', '')
-        user = authenticate(username=user_username, password=user_password)
-        if user is not None:
-            if user.is_active:
-                django_login(request, user)
-                return redirect('/')
+        if form.is_valid():
+            user_username = form.cleaned_data.get('username', '')
+            user_password = form.cleaned_data.get('password', '')
+            user = authenticate(username=user_username, password=user_password)
+            if user is not None:
+                if user.is_active:
+                    django_login(request, user)
+                    return redirect('/')
+                else:
+                    context['errors'] = 'El usuario no está activo'
             else:
-                context['errors'] = 'El usuario no está activo'
-        else:
-            context['errors'] = 'Usuario o contraseña incorrectos'
+                context['errors'] = 'Usuario o contraseña incorrectos'
 
     return render(request, 'photos/login.html', context)
