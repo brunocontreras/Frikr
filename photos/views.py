@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
@@ -12,6 +13,7 @@ from django.contrib.auth import login as django_login
 from django.contrib.auth import authenticate
 from django.core.urlresolvers import reverse
 from django.views.generic import View
+from django.views.generic import ListView
 
 
 class HomeView(View):
@@ -122,3 +124,26 @@ class CreatePhotoView(View):
             'message': message
         }
         return render(request, 'photos/new_photo.html', context)
+
+
+class PhotoList(ListView):
+    model = Photo
+    template_name = 'photos/list_of_photos.html'
+
+    def get_queryset(self):
+        # si el usuario no está autenticado, sólo las públicas
+        if not self.request.user.is_authenticated():
+            return Photo.objects.filter(visibility=PUBLIC)
+
+        # si es superadmin, todas
+        elif self.request.user.is_superuser:
+            return Photo.objects.all()
+
+        # si el usuario está autenticado y no es super admin, las suyas o las públicas de otros
+        # para hacer un OR se utilizan los objetos Q. Se concatenan y se le pasa a filter.
+        else:
+            return Photo.objects.filter(
+                Q(owner=self.request.user) | Q(visibility=PUBLIC)
+            )
+
+        return super(PhotoList, self).get_queryset()
