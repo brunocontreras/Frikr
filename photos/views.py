@@ -87,10 +87,14 @@ def profile(request):
 def create_photo(request):
     message = ''
     if request.method.lower() == 'post':
-        form = PhotoForm(request.POST)
+        photo_with_user = Photo(owner=request.user)
+        #photo_with_user.owner = request.user
+
+        form = PhotoForm(request.POST, instance=photo_with_user)
         if form.is_valid():
             new_photo = form.save()
             message = 'Guardado con éxito! <a href="{0}">Ver foto</a>'.format(reverse('photo_detail', args=[new_photo.pk]))
+            form = PhotoForm()
     else:
         form = PhotoForm()
     context = {
