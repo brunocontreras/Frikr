@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from frikr.settings import PUBLIC
@@ -63,7 +64,8 @@ def login(request):
             if user is not None:
                 if user.is_active:
                     django_login(request, user)
-                    return redirect('/')
+                    url = request.GET.get('next', 'profile')
+                    return redirect(url)
                 else:
                     context['errors'] = 'El usuario no está activo'
             else:
@@ -71,7 +73,7 @@ def login(request):
 
     return render(request, 'photos/login.html', context)
 
-
+@login_required(login_url='login')
 def profile(request):
     context = {
         'photos': request.user.photo_set.all()
