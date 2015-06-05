@@ -2,6 +2,7 @@
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from frikr.settings import PUBLIC
+from photos.forms import LoginForm
 from photos.models import Photo
 from django.contrib.auth import logout as django_logout
 from django.contrib.auth import login as django_login
@@ -50,7 +51,10 @@ def logout(request):
 
 
 def login(request):
-    context = {}
+    form = LoginForm()
+    context = {
+        'form': form
+    }
     if request.method.lower() == 'post':
         user_username = request.POST.get('username', '')
         user_password = request.POST.get('password', '')

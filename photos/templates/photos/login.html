@@ -6,12 +6,7 @@
     {% endif %}
     <form method="post">
         {% csrf_token %}
-        <div>
-            <input type="text" placeholder="Usuario" name="username" value="" />
-        </div>
-        <div>
-            <input type="password" placeholder="Password" name="password" value="" />
-        </div>
+        {{ form.as_p }}
         <button type="submit">Entrar</button>
     </form>
 {% endblock %}
