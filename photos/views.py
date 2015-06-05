@@ -4,10 +4,12 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from frikr.settings import PUBLIC
 from photos.forms import LoginForm
+from photos.forms import PhotoForm
 from photos.models import Photo
 from django.contrib.auth import logout as django_logout
 from django.contrib.auth import login as django_login
 from django.contrib.auth import authenticate
+from django.core.urlresolvers import reverse
 
 # Create your views here.
 
@@ -79,3 +81,20 @@ def profile(request):
         'photos': request.user.photo_set.all()
     }
     return render(request, 'photos/profile.html', context)
+
+
+@login_required(login_url='login')
+def create_photo(request):
+    message = ''
+    if request.method.lower() == 'post':
+        form = PhotoForm(request.POST)
+        if form.is_valid():
+            new_photo = form.save()
+            message = 'Guardado con éxito! <a href="{0}">Ver foto</a>'.format(reverse('photo_detail', args=[new_photo.pk]))
+    else:
+        form = PhotoForm()
+    context = {
+        'form': form,
+        'message': message
+    }
+    return render(request, 'photos/new_photo.html', context)

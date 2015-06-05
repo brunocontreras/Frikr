@@ -1,0 +1,10 @@
+{% extends 'photos/base.html' %}
+{% block 'content' %}
+    <h1>Create Photo</h1>
+    {{ message|safe }}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add</button>
+    </form>
+{% endblock %}
