@@ -70,3 +70,10 @@ def login(request):
                 context['errors'] = 'Usuario o contraseña incorrectos'
 
     return render(request, 'photos/login.html', context)
+
+
+def profile(request):
+    context = {
+        'photos': request.user.photo_set.all()
+    }
+    return render(request, 'photos/profile.html', context)
