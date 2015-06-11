@@ -29,11 +29,11 @@ class UserSerializer(serializers.Serializer):
         """
         instance.first_name = validated_data.get('first_name')
         instance.last_name = validated_data.get('last_name')
-        instance.username = validated_data('username')
-        instance.email = validated_data('email')
+        instance.username = validated_data.get('username')
+        instance.email = validated_data.get('email')
 
         # la contraseña siempre hay que encriptarla
-        instance.password = make_password(validated_data('password'))
+        instance.password = make_password(validated_data.get('password'))
 
         # En los formularios de Django guarda automáticamente.
         # Aquí no. Hay que hacerlo nosotros.
