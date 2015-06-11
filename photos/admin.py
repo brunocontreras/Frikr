@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.contrib import admin
 from photos.models import Photo
 
@@ -5,9 +6,15 @@ from photos.models import Photo
 
 class PhotoAdmin(admin.ModelAdmin):
 
-    list_display = ('name', 'owner', 'license', 'visibility')
+    list_display = ('name', 'owner_name', 'license', 'visibility')
     list_filter = ('license', 'visibility', 'created_on')
     search_fields = ('name', 'description')
+
+    # Se lanza por por cada línea que tiene que pintar, obteniendo el objeto (en este caso photo)
+    def owner_name(self, obj):
+        return obj.owner.first_name + ' ' + obj.owner.last_name
+    owner_name.short_description = 'Author'
+    owner_name.admin_order_field = 'owner__first_name' # El doble guión bajo es para hacer un join, para acceder a un campo de una tabla relacional
 
 
 # Habilita la entidad photo en el administrador de Django
