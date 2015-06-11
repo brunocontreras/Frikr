@@ -10,6 +10,30 @@ class PhotoAdmin(admin.ModelAdmin):
     list_filter = ('license', 'visibility', 'created_on')
     search_fields = ('name', 'description')
 
+    fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('name',)
+        }),
+        ('Description', {
+            'classes': ('wide',),
+            'fields': ('description',)
+        }),
+        ('Author', {
+            'classes': ('wide',),
+            'fields': ('owner',)
+        }),
+        ('URL', {
+            'classes': ('wide',),
+            'fields': ('url',)
+        }),
+        ('License & Visibility', {
+            'classes': ('wide', 'collapse'),
+            'fields': ('license', 'visibility',)
+        })
+    )
+
+
     # Se lanza por por cada línea que tiene que pintar, obteniendo el objeto (en este caso photo)
     def owner_name(self, obj):
         return obj.owner.first_name + ' ' + obj.owner.last_name
