@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
+from frikr import settings
 from photos.models import Photo
+from photos.validators import badwords
 from rest_framework import serializers
 
 class UserSerializer(serializers.Serializer):
@@ -43,10 +45,11 @@ class UserSerializer(serializers.Serializer):
         return instance
 
 
-
 class PhotoSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Photo
+
 
 class PhotoListSerializer(PhotoSerializer):
     class Meta(PhotoSerializer.Meta):

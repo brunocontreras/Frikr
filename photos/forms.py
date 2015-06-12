@@ -3,7 +3,6 @@ from django import forms
 from photos.models import Photo
 from django.conf import settings
 
-BADWORDS = getattr(settings, 'BADWORDS', [])
 
 class LoginForm(forms.Form):
 
