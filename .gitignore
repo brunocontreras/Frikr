@@ -59,3 +59,5 @@ target/
 
 *.sqlite3
 .idea/workspace.xml
+.idea/Frikr.iml
+.idea/misc.xml
