@@ -2,7 +2,7 @@
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from photos.models import Photo
-from photos.serializers import UserSerializer, PhotoSerializer
+from photos.serializers import UserSerializer, PhotoSerializer, PhotoListSerializer
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -52,7 +52,9 @@ class UserDetailAPI(APIView):
 
 class PhotoListAPI(ListCreateAPIView):
     queryset = Photo.objects.all()
-    serializer_class = PhotoSerializer
+
+    def get_serializer_class(self):
+        return PhotoSerializer if self.request.method.lower() == 'post' else PhotoListSerializer
 
 class PhotoDetailAPI(RetrieveUpdateDestroyAPIView):
     queryset = Photo.objects.all()
