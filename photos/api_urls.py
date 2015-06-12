@@ -7,6 +7,8 @@ from photos import api
 """
 
 urlpatterns = patterns('',
-    url(r'^/users/$', api.UserListAPI.as_view(), name='user_list_api'),
-    url(r'^/users/(?P<pk>[0-9]+)$', api.UserDetailAPI.as_view(), name='user_detail_api'),
+    url(r'^users/$', api.UserListAPI.as_view(), name='user_list_api'),
+    url(r'^users/(?P<pk>[0-9]+)$', api.UserDetailAPI.as_view(), name='user_detail_api'),
+
+    url(r'^photos/$', api.PhotoListAPI.as_view(), name='photo_list'),
 )

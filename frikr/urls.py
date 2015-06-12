@@ -27,5 +27,4 @@ urlpatterns = [
 
     # Web URLS
     url(r'', include(photos.urls)),
-
 ]
