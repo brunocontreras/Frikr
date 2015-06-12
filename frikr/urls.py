@@ -17,20 +17,15 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 from photos import views, api
+import photos
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     # API URLS
-    url(r'^api/1.0/users/$', api.UserListAPI.as_view(), name='user_list_api'),
-    url(r'^api/1.0/users/(?P<pk>[0-9]+)$', api.UserDetailAPI.as_view(), name='user_detail_api'),
+    url(r'^api/1.0/', include(photos.api_urls)),
 
     # Web URLS
-    url(r'^$', views.HomeView.as_view(), name='home'),
-    url(r'^new', views.CreatePhotoView.as_view(), name='create_photo'),
-    url(r'^profile', views.ProfileView.as_view(), name='profile'),
-    url(r'^login$', views.LoginView.as_view(), name='login'),
-    url(r'^logout$', views.LogoutView.as_view(), name='logout'),
-    url(r'^photos/?$', views.PhotoList.as_view(), name='photo_list'),
-    url(r'^photos/(?P<pk>[0-9]+)$', views.PhotoDefailView.as_view(), name='photo_detail'),
+    url(r'', include(photos.urls)),
+
 ]
