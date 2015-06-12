@@ -130,3 +130,6 @@ VISIBILITY = (
     (PUBLIC, 'Pública'),
     (PRIVATE, 'Privada'),
 )
+
+# from http://goo.gl/G2nCu7
+BADWORDS = [u'Zanahorio', u'Abollao', u'Cabezantorcha']
