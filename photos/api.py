@@ -2,6 +2,7 @@
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from photos.models import Photo
+from photos.permissions import UserPermission
 from photos.serializers import UserSerializer, PhotoSerializer, PhotoListSerializer
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -11,6 +12,8 @@ from rest_framework import status
 
 
 class UserListAPI(APIView):
+
+    permission_classes = (UserPermission,)
 
     def get(self, request):
         users = User.objects.all()
@@ -29,15 +32,21 @@ class UserListAPI(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# Llamamos al check de los permisos porque estamos implementando todo el método.
+# y la vista no es tan inteligente.
 class UserDetailAPI(APIView):
+
+    permission_classes = (UserPermission,)
 
     def get(self, request, pk):
         user = get_object_or_404(User, pk=pk)
+        self.check_object_permissions(request, user)
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
     def put(self, request, pk):
         user = get_object_or_404(User, pk=pk)
+        self.check_object_permissions(request, user)
         serializer = UserSerializer(instance=user, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -47,6 +56,7 @@ class UserDetailAPI(APIView):
 
     def delete(self, request, pk):
         user = get_object_or_404(User, pk=pk)
+        self.check_object_permissions(request, user)
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
