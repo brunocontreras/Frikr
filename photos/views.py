@@ -14,6 +14,7 @@ from django.contrib.auth import authenticate
 from django.core.urlresolvers import reverse
 from django.views.generic import View
 from django.views.generic import ListView
+from photos.views_querysets import PhotoQuerySet
 
 
 class HomeView(View):
@@ -126,24 +127,6 @@ class CreatePhotoView(View):
         return render(request, 'photos/new_photo.html', context)
 
 
-class PhotoList(ListView):
+class PhotoList(PhotoQuerySet, ListView):
     model = Photo
     template_name = 'photos/list_of_photos.html'
-
-    def get_queryset(self):
-        # si el usuario no está autenticado, sólo las públicas
-        if not self.request.user.is_authenticated():
-            return Photo.objects.filter(visibility=PUBLIC)
-
-        # si es superadmin, todas
-        elif self.request.user.is_superuser:
-            return Photo.objects.all()
-
-        # si el usuario está autenticado y no es super admin, las suyas o las públicas de otros
-        # para hacer un OR se utilizan los objetos Q. Se concatenan y se le pasa a filter.
-        else:
-            return Photo.objects.filter(
-                Q(owner=self.request.user) | Q(visibility=PUBLIC)
-            )
-
-        return super(PhotoList, self).get_queryset()
