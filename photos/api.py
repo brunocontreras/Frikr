@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework import viewsets
 
 
 class UserListAPI(APIView):
@@ -62,21 +63,16 @@ class UserDetailAPI(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class PhotoListAPI(PhotoQuerySet, ListCreateAPIView):
+
+class PhotoViewSet(PhotoQuerySet, viewsets.ModelViewSet):
     queryset = Photo.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_serializer_class(self):
-        return PhotoSerializer if self.request.method.lower() == 'post' else PhotoListSerializer
+        return PhotoListSerializer if self.action.lower() == 'list' else PhotoSerializer
 
     def perform_create(self, serializer):
         """
         Al guardar, forzamos a que el owner sea el usuario autenticado
         """
         serializer.save(owner=self.request.user)
-
-
-class PhotoDetailAPI(PhotoQuerySet, RetrieveUpdateDestroyAPIView):
-    queryset = Photo.objects.all()
-    serializer_class = PhotoSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
