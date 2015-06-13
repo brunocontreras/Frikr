@@ -138,5 +138,14 @@ BADWORDS = [u'Zanahorio', u'Abollao', u'Cabezantorcha']
 REST_FRAMWORK = {
     'PAGINATE_BY': 3,
     'PAGINATE_BY_PARAM': 'page_size',
-    'MAX_PAGINATE_BY': 10
+    'MAX_PAGINATE_BY': 10,
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+        'rest_framework_xml.parsers.XMLParser',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+        'rest_framework_xml.renderers.XMLRenderer',
+    ),
 }
