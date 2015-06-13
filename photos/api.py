@@ -5,6 +5,7 @@ from photos.models import Photo
 from photos.permissions import UserPermission
 from photos.serializers import UserSerializer, PhotoSerializer, PhotoListSerializer
 from photos.views_querysets import PhotoQuerySet
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework import status
@@ -69,6 +70,9 @@ class PhotoViewSet(PhotoQuerySet, ListDetailSerializer, viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = PhotoSerializer
     list_serializer_class = PhotoListSerializer
+    filter_backends = (SearchFilter, OrderingFilter)
+    search_fields = ('name', 'description', 'owner__first_name', 'owner__last_name')
+    ordering_fields = ('name', 'owner', 'created_on')
 
     def perform_create(self, serializer):
         """
