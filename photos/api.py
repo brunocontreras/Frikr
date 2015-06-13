@@ -69,6 +69,12 @@ class PhotoListAPI(PhotoQuerySet, ListCreateAPIView):
     def get_serializer_class(self):
         return PhotoSerializer if self.request.method.lower() == 'post' else PhotoListSerializer
 
+    def perform_create(self, serializer):
+        """
+        Al guardar, forzamos a que el owner sea el usuario autenticado
+        """
+        serializer.save(owner=self.request.user)
+
 
 class PhotoDetailAPI(PhotoQuerySet, RetrieveUpdateDestroyAPIView):
     queryset = Photo.objects.all()

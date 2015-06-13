@@ -49,7 +49,7 @@ class PhotoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Photo
-
+        read_only_fields = ('owner',) # owner sólo se muestra en los GET
 
 class PhotoListSerializer(PhotoSerializer):
     class Meta(PhotoSerializer.Meta):
