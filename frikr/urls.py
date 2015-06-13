@@ -18,12 +18,14 @@ from django.contrib import admin
 
 from photos import views, api
 import photos
+from files import urls as files_urls
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     # API URLS
     url(r'^api/1.0/', include(photos.api_urls)),
+    url(r'^api/1.0/', include(files_urls)),
 
     # Web URLS
     url(r'', include(photos.urls)),

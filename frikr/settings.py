@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'photos',
     'frikr',
     'rest_framework',
+    'files',
 )
 
 MIDDLEWARE_CLASSES = (
