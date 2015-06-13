@@ -133,3 +133,10 @@ VISIBILITY = (
 
 # from http://goo.gl/G2nCu7
 BADWORDS = [u'Zanahorio', u'Abollao', u'Cabezantorcha']
+
+
+REST_FRAMWORK = {
+    'PAGINATE_BY': 3,
+    'PAGINATE_BY_PARAM': 'page_size',
+    'MAX_PAGINATE_BY': 10
+}
