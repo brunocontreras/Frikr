@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, url, include
 from photos import api
-from photos.api import PhotoViewSet
+from photos.api import PhotoViewSet, UserViewSet
 from rest_framework.routers import DefaultRouter
 
 """
@@ -10,10 +10,10 @@ from rest_framework.routers import DefaultRouter
 
 photo_router = DefaultRouter()
 photo_router.register(r'photos', PhotoViewSet)
+# base_name lo necesita para crear los 'name' de las urls, lo que antes poníamos en cada url.
+# No es capaz de resolverlo automáticamente porque no es ModelViewSet.
+photo_router.register(r'users', UserViewSet, base_name='user')
 
 urlpatterns = patterns('',
-    url(r'^users/$', api.UserListAPI.as_view(), name='user_list_api'),
-    url(r'^users/(?P<pk>[0-9]+)$', api.UserDetailAPI.as_view(), name='user_detail_api'),
-
     url(r'', include(photo_router.urls)),
 )

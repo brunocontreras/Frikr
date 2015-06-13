@@ -16,13 +16,11 @@ class UserPermission(BasePermission):
 
         # Importamos dinámicamente UserDetailAPI. Sólo en el momento que se ejecuta el método se carga el módulo.
         # Si lo importamos arriba generaría una dependencia cíclica.
-        from photos.api import UserDetailAPI
-        if request.method.lower() == "post" and not request.user.is_authenticated():
+        if view.action.lower() == "list" and not request.user.is_authenticated():
             return True
         elif request.user.is_superuser:
             return True
-        # si view es de la clase UserDetailAPI le dejamos pasar para que lo compruebe en has_object_permission
-        elif isinstance(view, UserDetailAPI):
+        elif view.action.lower() in ['retrieve', 'update', 'destroy']:
             return True
         return False
 
