@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'frikr',
     'rest_framework',
     'files',
+    'djcelery',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -150,3 +151,8 @@ REST_FRAMWORK = {
         'rest_framework_xml.renderers.XMLRenderer',
     ),
 }
+
+
+# Celery config
+BROKER_URL = 'amqp://guest:guest@localhost//'
+CELERY_IMPORTS = ['files.celery_tasks']
