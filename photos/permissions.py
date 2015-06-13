@@ -16,7 +16,7 @@ class UserPermission(BasePermission):
 
         # Importamos dinámicamente UserDetailAPI. Sólo en el momento que se ejecuta el método se carga el módulo.
         # Si lo importamos arriba generaría una dependencia cíclica.
-        if view.action.lower() == "list" and not request.user.is_authenticated():
+        if view.action and view.action.lower() == "list" and not request.user.is_authenticated():
             return True
         elif request.user.is_superuser:
             return True
